@@ -1,25 +1,102 @@
 const model = {
   contacts: [],
+  calles: [],
 
+  checkContact(name, famelyName, number) {
+    const contact = this.contacts.find(contact => {
+      return (
+        contact.name === name &&
+        contact.famelyName === famelyName &&
+        contact.phoneNumber === number
+      )
+    })
+    console.log(this.contacts.indexOf(contact))
+    if (contact) {
+      this.editContact(contact, name, famelyName, number)
+      console.log('model edit')
+    } else {
+      console.log('model add')
+      this.addContact(name, famelyName, number)
+    }
+  },
   addContact(name, famelyName, number) {
     const contact = {
+      id: crypto.randomUUID(),
       name: name,
       famelyName: famelyName,
       phoneNumber: number,
       inFavourites: false,
+      dateOfCreation: new Date(),
       makedCalles: [],
     }
     this.contacts.push(contact)
-    console.log(this.contacts)
+  },
+  editContact(contact, name, famelyName, number) {
+    console.log(contact)
+
+    contact.name = name
+    contact.famelyName = famelyName
+    contact.phoneNumber = number
+  },
+  addCall(contact) {
+    const call = {
+      id: contact.id,
+      phoneNumber: contact.phoneNumber,
+      dateOfCall: new Date(),
+    }
+    this.calles.unshift(call)
+  },
+
+  mekeId() {
+    return crypto.randomUUID()
   },
 
   getContacts() {
     return this.contacts
   },
 
-  getContactByNameAndFamelyName(name, famelyName) {
+  getCalles() {
+    return this.calles
+  },
+
+  // getCallesMekedSecondsDiff() {
+  //   let timeStamp = new Date()
+  //   let timeCalles = this.calles
+  //   console.log(timeCalles)
+
+  //   timeCalles = timeCalles.forEach(call => {
+  //     timeStamp = +timeStamp / 1000 / 60 + call.dateOfCall / 1000 / 60
+
+  //     call.dateOfCall = +call.dateOfCall / 1000 / 60
+  //     call.dateOfCall = timeStamp - call.dateOfCall
+  //   })
+  //   console.log(this.calles)
+  // },
+
+  searchContacts(par) {
+    const searchedContacts = this.contacts.filter(contact => {
+      return contact.name.includes(par) || contact.famelyName.includes(par)
+    })
+    return searchedContacts
+  },
+
+  getFavouritesContacts() {
+    const favouritesContacts = this.contacts.filter(contact => {
+      return contact.inFavourites
+    })
+    return favouritesContacts
+  },
+
+  getContactByNameFamelyNamePhoneNumber(name, famelyName, phoneNumber) {
     const contact = this.contacts.find(contact => {
       return contact.name === name && contact.famelyName === famelyName
+    })
+    return contact
+  },
+
+  getContactById(id) {
+    const contact = this.contacts.find(contact => {
+      return contact.id === id
     })
     return contact
   },
@@ -32,33 +109,16 @@ const model = {
     contact.makedCalles.push(call)
   },
 
-  addToFavourites(number) {
-    const contact = this.contacts.find(c => c.phoneNumber === number)
-    contact.inFavourites = true
+  addRemoveFavourites(id) {
+    const contact = this.contacts.find(c => c.id === id)
+    contact.inFavourites
+      ? (contact.inFavourites = false)
+      : (contact.inFavourites = true)
   },
 
-  editContact(phoneNumber, name, famelyName, number) {
-    const contact = this.contacts.find(contact => {
-      return contact.phoneNumber === phoneNumber
+  deleteContactById(id) {
+    this.contacts = this.contacts.filter(contact => {
+      return contact.id !== id
     })
-    contact.name = name
-    contact.famelyName = famelyName
-    contact.phoneNumber = number
   },
 }
-// console.log(model.contacts)
-// model.addContact('Vasya', 'Petrov', 22222)
-// console.log(model.contacts)
-// model.addToFavourites(22222)
-// console.log(model.contacts)
-// model.editContact(22222, 'petya', 'Pupkin', 33333)
-// console.log(model.contacts)
-// model.makeCall(33333)
-// console.log(model.contacts)
-// const time = Date.now()
-// console.log(time)
-// const time2 = model.contacts[0].makedCalles[0]
-// console.log(time2)
-// const time3 = Date.now()
-// console.log(time3)
-// console.log(time2 - time)
