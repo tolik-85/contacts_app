@@ -2,23 +2,6 @@ const model = {
   contacts: [],
   calles: [],
 
-  checkContact(name, famelyName, number) {
-    const contact = this.contacts.find(contact => {
-      return (
-        contact.name === name &&
-        contact.famelyName === famelyName &&
-        contact.phoneNumber === number
-      )
-    })
-    console.log(this.contacts.indexOf(contact))
-    if (contact) {
-      this.editContact(contact, name, famelyName, number)
-      console.log('model edit')
-    } else {
-      console.log('model add')
-      this.addContact(name, famelyName, number)
-    }
-  },
   addContact(name, famelyName, number) {
     const contact = {
       id: crypto.randomUUID(),
@@ -27,26 +10,31 @@ const model = {
       phoneNumber: number,
       inFavourites: false,
       dateOfCreation: new Date(),
-      makedCalles: [],
     }
     this.contacts.push(contact)
   },
-  editContact(contact, name, famelyName, number) {
-    console.log(contact)
 
-    contact.name = name
-    contact.famelyName = famelyName
-    contact.phoneNumber = number
+  editContactById(id, editedContact) {
+    console.log(this.contacts)
+    const contact = this.getContactById(id)
+    Object.assign(contact, editedContact)
   },
+
   addCall(contact) {
     const call = {
       id: contact.id,
       phoneNumber: contact.phoneNumber,
-      dateOfCall: new Date(),
+      dateOfCall: Date.now(),
+      secondsOfCall: 0,
     }
     this.calles.unshift(call)
   },
-
+  setContacts(contacts) {
+    this.contacts = contacts
+  },
+  setCalles(calles) {
+    this.calles = calles
+  },
   mekeId() {
     return crypto.randomUUID()
   },
@@ -59,19 +47,14 @@ const model = {
     return this.calles
   },
 
-  // getCallesMekedSecondsDiff() {
-  //   let timeStamp = new Date()
-  //   let timeCalles = this.calles
-  //   console.log(timeCalles)
+  calcCallesMekedSecondsDiff() {
+    let timeStamp = Date.now()
 
-  //   timeCalles = timeCalles.forEach(call => {
-  //     timeStamp = +timeStamp / 1000 / 60 + call.dateOfCall / 1000 / 60
-
-  //     call.dateOfCall = +call.dateOfCall / 1000 / 60
-  //     call.dateOfCall = timeStamp - call.dateOfCall
-  //   })
-  //   console.log(this.calles)
-  // },
+    this.calles.forEach(call => {
+      call.secondsOfCall = (timeStamp - call.dateOfCall) / 1000
+      call.secondsOfCall = Math.floor(call.secondsOfCall)
+    })
+  },
 
   searchContacts(par) {
     const searchedContacts = this.contacts.filter(contact => {
@@ -85,13 +68,6 @@ const model = {
       return contact.inFavourites
     })
     return favouritesContacts
-  },
-
-  getContactByNameFamelyNamePhoneNumber(name, famelyName, phoneNumber) {
-    const contact = this.contacts.find(contact => {
-      return contact.name === name && contact.famelyName === famelyName
-    })
-    return contact
   },
 
   getContactById(id) {

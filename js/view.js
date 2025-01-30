@@ -1,13 +1,14 @@
 const view = {
   onLoaded() {
     this.addEventListeners()
+    controller.onLoadPageHandler()
   },
 
   addEventListeners() {
-    const elAddContactBtn = document.querySelector('#appAddContact')
+    // const elAddContactBtn = document.querySelector('#appAddContact')
     const elOpenModal1Btn = document.querySelector('#elFab')
     const elInputSearch = document.querySelector('#search')
-    elAddContactBtn.addEventListener('click', this.onClickAddContactBtn)
+    // elAddContactBtn.addEventListener('click', this.onClickAddContactBtn)
     elOpenModal1Btn.addEventListener('click', this.onClickOpenModal1Btn)
     elInputSearch.addEventListener('input', view.onInputSearchInput)
   },
@@ -44,7 +45,7 @@ const view = {
 
   onClickEditContactIconModal2() {
     const id = this.id
-    controller.editContactHandler(id)
+    controller.openModal1Handler(id)
   },
 
   renderModal1AddNewContact() {
@@ -57,6 +58,10 @@ const view = {
       .querySelector('span')
 
     elEditContactBtn.innerText = 'Добавить'
+
+    const elAddContactBtn = document.querySelector('#appAddContact')
+    elAddContactBtn.removeEventListener('click', this.onClickEditContactBtn)
+    elAddContactBtn.addEventListener('click', this.onClickAddContactBtn)
 
     const elFirstNameLabel = document.querySelector('[for="firstName"]')
     const elSecondNameeLabel = document.querySelector('[for="secondName"]')
@@ -75,9 +80,10 @@ const view = {
     elPhoneInput.value = ''
   },
 
-  renderModal1EditContact(contact) {
+  renderModal1EditContact(contact, id) {
     const elModal1h5 = document.querySelector('#modal1').querySelector('h5')
     elModal1h5.innerText = 'Редактировать контакт'
+    elModal1h5.setAttribute('id', `${id}`)
 
     const elEditContactBtn = document
       .querySelector('#modal1')
@@ -85,6 +91,10 @@ const view = {
       .querySelector('span')
 
     elEditContactBtn.innerText = 'Редактировать'
+    const elAddContactBtn = document.querySelector('#appAddContact')
+
+    elAddContactBtn.removeEventListener('click', view.onClickAddContactBtn)
+    elAddContactBtn.addEventListener('click', view.onClickEditContactBtn)
 
     const elFirstNameInput = document
       .querySelector('#modal1')
@@ -111,6 +121,30 @@ const view = {
     elPhoneInput.value = contact.phoneNumber
   },
 
+  onClickEditContactBtn() {
+    const elModal1h5 = document.querySelector('#modal1').querySelector('h5')
+    const id = elModal1h5.getAttribute('id')
+
+    const elFirstNameInput = document
+      .querySelector('#modal1')
+      .querySelector('#firstName')
+
+    const elSecondNameInput = document
+      .querySelector('#modal1')
+      .querySelector('#secondName')
+
+    const elPhoneInput = document
+      .querySelector('#modal1')
+      .querySelector('#phone')
+
+    controller.editContactHandler(
+      id,
+      elFirstNameInput.value,
+      elSecondNameInput.value,
+      elPhoneInput.value
+    )
+    elModal1h5.removeAttribute('id')
+  },
   onClickDeleteContactBtn(e) {
     const id = this.id
     controller.deleteContactHandler(id)
@@ -125,7 +159,7 @@ const view = {
     })
   },
 
-  renderModal2(contact) {
+  renderModal2EditContact(contact) {
     const elH5NameFamelyName = document
       .querySelector('#modal2')
       .querySelector('h5')
@@ -181,9 +215,11 @@ const view = {
     const id = this.id
     controller.onClickMakeCallHandler(id)
   },
+
   onInputSearchInput(e) {
     controller.onInputSearchHandler(e.target.value)
   },
+
   renderSearchModal3(seachedContacts) {
     const searchResultListModal3 = document
       .querySelector('#modal3')
@@ -195,4 +231,5 @@ const view = {
     })
   },
 }
+setInterval(controller.renderCallsTab2HandlerEvery10Sec, 10000)
 document.addEventListener('DOMContentLoaded', view.onLoaded.bind(view))
