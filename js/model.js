@@ -4,7 +4,7 @@ const model = {
 
   addContact(name, famelyName, number) {
     const contact = {
-      id: crypto.randomUUID(),
+      id: this.makeId(),
       name: name,
       famelyName: famelyName,
       phoneNumber: number,
@@ -35,7 +35,7 @@ const model = {
   setCalles(calles) {
     this.calles = calles
   },
-  mekeId() {
+  makeId() {
     return crypto.randomUUID()
   },
 
@@ -98,3 +98,6 @@ const model = {
     })
   },
 }
+// console.log(model.contacts)
+// model.addContact('Ivan', 'Petrov', '102')
+// console.log(model.contacts[0].id)
