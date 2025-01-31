@@ -66,16 +66,14 @@ const model = {
     if (query === '') {
       return ''
     } else {
-      let searchedQuery = query.toLowerCase()
-      const searchedContacts = this.contacts.filter(contact => {
+      let searchQuery = query.toLowerCase()
+      const searchContacts = this.contacts.filter(contact => {
         return (
-          contact.name.toLowerCase().includes(searchedQuery) ||
-          contact.famelyName.toLowerCase().includes(searchedQuery)
+          contact.name.toLowerCase().includes(searchQuery) ||
+          contact.famelyName.toLowerCase().includes(searchQuery)
         )
       })
-      console.log(searchedContacts)
-
-      return searchedContacts
+      return searchContacts
     }
   },
 
@@ -101,15 +99,3 @@ const model = {
     })
   },
 }
-// console.log(model.contacts)
-// model.addContact('Ivan', 'Petrov', '102')
-// console.log(model.contacts[0].id)
-
-// model.addContact('Петр', 'Иванов', '123456789')
-// model.addContact('Иван', 'Петров', '9876543321')
-// model.addContact('Марина', 'Владимировна', '333333333')
-// model.addContact('Владимир', 'Сергеев', '521513515')
-// model.addContact('Светлана', 'Владимировна', '5555555555')
-
-// let finded = model.searchContacts('')
-// console.log(finded)
