@@ -188,6 +188,8 @@ const view = {
 
   onClickMakeCallModal2() {
     const id = this.id
+    console.log(id)
+
     controller.onClickMakeCallHandler(id)
   },
 

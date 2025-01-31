@@ -256,9 +256,13 @@ const generator = {
   },
 
   generateSearchCard(contact) {
+    console.log(contact)
+
     const elLiContactWrapper = document.createElement('li')
     elLiContactWrapper.classList.add('collection-item')
     elLiContactWrapper.classList.add('avatar')
+    elLiContactWrapper.setAttribute('id', contact.id)
+    elLiContactWrapper.addEventListener('click', view.onClickMakeCallModal2)
 
     const elIcontactAvatar = document.createElement('i')
     elIcontactAvatar.classList.add('material-icons')

@@ -73,6 +73,8 @@ const model = {
           contact.famelyName.toLowerCase().includes(searchedQuery)
         )
       })
+      console.log(searchedContacts)
+
       return searchedContacts
     }
   },
