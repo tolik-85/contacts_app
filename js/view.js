@@ -17,12 +17,12 @@ const view = {
     const elFirstNameInput = document.querySelector('#firstName')
     const elSecondNameInput = document.querySelector('#secondName')
     const elPhoneInput = document.querySelector('#phone')
-
-    controller.addContactHandler(
-      elFirstNameInput.value,
-      elSecondNameInput.value,
-      elPhoneInput.value
-    )
+    const newContact = {
+      name: elFirstNameInput.value,
+      famelyName: elSecondNameInput.value,
+      phoneNumber: elPhoneInput.value,
+    }
+    controller.addContactHandler(newContact)
 
     elFirstNameInput.value = ''
     elSecondNameInput.value = ''
@@ -38,9 +38,9 @@ const view = {
     controller.handleOpenModal2(id)
   },
 
-  onClickAddRemoveFavouritesBtn() {
+  onClickAddRemoveFavoritesBtn() {
     const id = this.id
-    controller.addRemoveFavouritesHandler(id)
+    controller.addRemoveFavoritesHandler(id)
   },
 
   onClickEditContactIconModal2() {
@@ -172,7 +172,7 @@ const view = {
       .querySelector('.text-lighten-5')
 
     const EditButtons =
-      generator.generateFavouritesEditDeleteButtonsModal2(contact)
+      generator.generateFavoritesEditDeleteButtonsModal2(contact)
 
     elButtonsContainer.remove()
     elDivRow.appendChild(EditButtons)
@@ -191,27 +191,27 @@ const view = {
     controller.onClickMakeCallHandler(id)
   },
 
-  renderCallesTab2(calles) {
-    const elUlCallesList = document.querySelector('#app-recent-calls')
+  renderCallsTab2(calls) {
+    const elUlCallsList = document.querySelector('#app-recent-calls')
 
-    elUlCallesList.innerHTML = ''
+    elUlCallsList.innerHTML = ''
 
-    calles.forEach(call => {
+    calls.forEach(call => {
       const genCall = generator.generateCallTab2(call)
-      elUlCallesList.appendChild(genCall)
+      elUlCallsList.appendChild(genCall)
     })
   },
 
-  renderFavouritesTab1(contacts) {
-    const elDivFavouritesWrapper = document.querySelector('#app-favorites')
-    elDivFavouritesWrapper.innerHTML = ''
+  renderFavoritesTab1(contacts) {
+    const elDivFavoritesWrapper = document.querySelector('#app-favorites')
+    elDivFavoritesWrapper.innerHTML = ''
     contacts.forEach(cont => {
-      const contact = generator.generateFavouritesCardTab1(cont)
-      elDivFavouritesWrapper.appendChild(contact)
+      const contact = generator.generateFavoritesCardTab1(cont)
+      elDivFavoritesWrapper.appendChild(contact)
     })
   },
 
-  onClickFavouritesCardTab1() {
+  onClickFavoritesCardTab1() {
     const id = this.id
     controller.onClickMakeCallHandler(id)
   },
@@ -220,15 +220,19 @@ const view = {
     controller.onInputSearchHandler(e.target.value)
   },
 
-  renderSearchModal3(seachedContacts) {
+  renderSearchModal3(searchedContacts) {
     const searchResultListModal3 = document
       .querySelector('#modal3')
       .querySelector('.collection')
     searchResultListModal3.innerHTML = ''
-    seachedContacts.forEach(contact => {
-      const searchItem = generator.generateSearchCard(contact)
-      searchResultListModal3.appendChild(searchItem)
-    })
+    if (searchedContacts === '') {
+      return
+    } else {
+      searchedContacts.forEach(contact => {
+        const searchItem = generator.generateSearchCard(contact)
+        searchResultListModal3.appendChild(searchItem)
+      })
+    }
   },
 }
 setInterval(controller.renderCallsTab2HandlerEvery10Sec, 10000)

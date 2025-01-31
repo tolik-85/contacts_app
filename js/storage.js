@@ -6,11 +6,11 @@ const storage = {
     const contacts = JSON.parse(localStorage.getItem('contacts'))
     return contacts ?? []
   },
-  saveCalles(calles) {
-    localStorage.setItem('calles', JSON.stringify(calles))
+  saveCalls(calls) {
+    localStorage.setItem('calls', JSON.stringify(calls))
   },
-  restoreCalles() {
-    const calles = JSON.parse(localStorage.getItem('calles'))
-    return calles ?? []
+  restoreCalls() {
+    const calls = JSON.parse(localStorage.getItem('calls'))
+    return calls ?? []
   },
 }

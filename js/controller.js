@@ -1,19 +1,19 @@
 const controller = {
   onLoadPageHandler() {
     let contacts = storage.restoreContacts()
-    let calles = storage.restoreCalles()
-    model.setCalles(calles)
+    let calls = storage.restoreCalls()
+    model.setCalls(calls)
     model.setContacts(contacts)
     contacts = model.getContacts()
-    const favouriteContacts = model.getFavouritesContacts()
-    calles = model.getCalles()
-    view.renderCallesTab2(calles)
+    const favoriteContacts = model.getFavoritesContacts()
+    calls = model.getCalls()
+    view.renderCallsTab2(calls)
     view.renderTab3Contacts(contacts)
-    view.renderFavouritesTab1(favouriteContacts)
+    view.renderFavoritesTab1(favoriteContacts)
   },
 
-  addContactHandler(name, famelyName, number) {
-    model.addContact(name, famelyName, number)
+  addContactHandler(newContact) {
+    model.addContact(newContact)
     const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
     view.renderTab3Contacts(contacts)
@@ -24,27 +24,30 @@ const controller = {
     view.renderModal2EditContact(contact)
   },
 
-  addRemoveFavouritesHandler(id) {
-    model.addRemoveFavourites(id)
+  addRemoveFavoritesHandler(id) {
+    model.addRemoveFavorites(id)
     const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
     view.renderTab3Contacts(contacts)
-    const favouriteContacts = model.getFavouritesContacts()
+    const favouriteContacts = model.getFavoritesContacts()
 
-    view.renderFavouritesTab1(favouriteContacts)
+    view.renderFavoritesTab1(favouriteContacts)
   },
 
   deleteContactHandler(id) {
     model.deleteContactById(id)
-    const contacst = model.getContacts()
+    const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
-    view.renderTab3Contacts(contacst)
+    view.renderTab3Contacts(contacts)
+    const favoriteContacts = model.getFavoritesContacts()
+    view.renderFavoritesTab1(favoriteContacts)
   },
 
   openModal1Handler(id) {
     const contact = model.getContactById(id)
     view.renderModal1EditContact(contact, id)
   },
+
   editContactHandler(id, editedName, editedFamelyName, editedPhone) {
     const editedContact = {
       name: editedName,
@@ -52,28 +55,31 @@ const controller = {
       phoneNumber: editedPhone,
     }
     model.editContactById(id, editedContact)
-    const contacst = model.getContacts()
+    const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
-    view.renderTab3Contacts(contacst)
+    view.renderTab3Contacts(contacts)
+    const favouriteContacts = model.getFavoritesContacts()
+    view.renderFavoritesTab1(favouriteContacts)
   },
+
   onClickMakeCallHandler(id) {
     const contact = model.getContactById(id)
     model.addCall(contact)
-    const calles = model.getCalles()
-    storage.saveCalles(model.calles)
-    view.renderCallesTab2(calles)
+    const calls = model.getCalls()
+    storage.saveCalls(model.calls)
+    view.renderCallsTab2(calls)
   },
 
   onInputSearchHandler(searchPar) {
-    const seachedContacts = model.searchContacts(searchPar)
-    view.renderSearchModal3(seachedContacts)
+    const searchedContacts = model.searchContacts(searchPar)
+    view.renderSearchModal3(searchedContacts)
   },
-  renderCallsTab2HandlerEvery10Sec() {
-    const calles = model.getCalles()
 
-    if (calles.length > 0) {
-      model.calcCallesMekedSecondsDiff()
-      view.renderCallesTab2(calles)
+  renderCallsTab2HandlerEvery10Sec() {
+    const calls = model.getCalls()
+    if (calls.length > 0) {
+      model.calcCallsMakedSecondsDiff()
+      view.renderCallsTab2(calls)
     }
   },
 }

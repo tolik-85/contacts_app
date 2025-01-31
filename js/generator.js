@@ -61,7 +61,7 @@ const generator = {
     return elLiContact
   },
 
-  generateFavouritesEditDeleteButtonsModal2(contact) {
+  generateFavoritesEditDeleteButtonsModal2(contact) {
     const elDivContainerButtons = document.createElement('div')
     elDivContainerButtons.classList.add('col')
     elDivContainerButtons.classList.add('s6')
@@ -69,8 +69,7 @@ const generator = {
     elDivContainerButtons.classList.add('teal-text')
     elDivContainerButtons.classList.add('text-lighten-5')
 
-    const addToFavouritesButton =
-      generator.generateStarFavouritesModal2(contact)
+    const addToFavoritesButton = generator.generateStarFavoritesModal2(contact)
 
     const editButton = document.createElement('span')
     editButton.setAttribute('id', `${contact.id}`)
@@ -87,37 +86,37 @@ const generator = {
     deleteButton.innerText = 'delete'
     deleteButton.addEventListener('click', view.onClickDeleteContactBtn)
 
-    elDivContainerButtons.appendChild(addToFavouritesButton)
+    elDivContainerButtons.appendChild(addToFavoritesButton)
     elDivContainerButtons.appendChild(editButton)
     elDivContainerButtons.appendChild(deleteButton)
     editButton.addEventListener('click', view.onClickEditContactIconModal2)
     return elDivContainerButtons
   },
 
-  generateStarFavouritesModal2(contact) {
-    if (contact.inFavourites) {
-      const starFavouritesTrue = document.createElement('span')
-      starFavouritesTrue.setAttribute('id', `${contact.id}`)
-      starFavouritesTrue.classList.add('modal-close')
-      starFavouritesTrue.classList.add('material-symbols-outlined')
-      starFavouritesTrue.innerText = 'star'
-      starFavouritesTrue.addEventListener(
+  generateStarFavoritesModal2(contact) {
+    if (contact.inFavorites) {
+      const starFavoritesTrue = document.createElement('span')
+      starFavoritesTrue.setAttribute('id', `${contact.id}`)
+      starFavoritesTrue.classList.add('modal-close')
+      starFavoritesTrue.classList.add('material-symbols-outlined')
+      starFavoritesTrue.innerText = 'star'
+      starFavoritesTrue.addEventListener(
         'click',
-        view.onClickAddRemoveFavouritesBtn
+        view.onClickAddRemoveFavoritesBtn
       )
-      return starFavouritesTrue
+      return starFavoritesTrue
     } else {
-      const starFavouritesFalse = document.createElement('span')
-      starFavouritesFalse.setAttribute('id', `${contact.id}`)
-      starFavouritesFalse.classList.add('modal-close')
-      starFavouritesFalse.classList.add('material-symbols-outlined')
-      starFavouritesFalse.classList.add('non-fill')
-      starFavouritesFalse.innerText = 'star'
-      starFavouritesFalse.addEventListener(
+      const starFavoritesFalse = document.createElement('span')
+      starFavoritesFalse.setAttribute('id', `${contact.id}`)
+      starFavoritesFalse.classList.add('modal-close')
+      starFavoritesFalse.classList.add('material-symbols-outlined')
+      starFavoritesFalse.classList.add('non-fill')
+      starFavoritesFalse.innerText = 'star'
+      starFavoritesFalse.addEventListener(
         'click',
-        view.onClickAddRemoveFavouritesBtn
+        view.onClickAddRemoveFavoritesBtn
       )
-      return starFavouritesFalse
+      return starFavoritesFalse
     }
   },
 
@@ -214,7 +213,7 @@ const generator = {
     return elLiCallWrapper
   },
 
-  generateFavouritesCardTab1(contact) {
+  generateFavoritesCardTab1(contact) {
     const elDivCardWrapper = document.createElement('div')
     elDivCardWrapper.classList.add('favorite')
     elDivCardWrapper.classList.add('col')
@@ -251,7 +250,7 @@ const generator = {
     elDivCard.appendChild(elDivCardIcon)
     elDivCard.appendChild(elSpanContactName)
     elDivCardWrapper.appendChild(elDivCard)
-    elDivCardWrapper.addEventListener('click', view.onClickFavouritesCardTab1)
+    elDivCardWrapper.addEventListener('click', view.onClickFavoritesCardTab1)
 
     return elDivCardWrapper
   },

@@ -5,18 +5,16 @@ function makeId() {
 const model = {
   contacts: [],
   // recentCalls
-  calles: [],
+  calls: [],
 
   // !!addContact(contact)
-  addContact(name, famelyName, number) {
+  addContact(newContact) {
     const contact = {
       id: makeId(),
-      name: name,
-      famelyName: famelyName,
-      phoneNumber: number,
-      inFavourites: false,
+      inFavorites: false,
       dateOfCreation: new Date(),
     }
+    Object.assign(contact, newContact)
     this.contacts.push(contact)
   },
 
@@ -35,28 +33,29 @@ const model = {
       // timestampDelta
       secondsOfCall: 0,
     }
-    this.calles.unshift(call)
+    this.calls.unshift(call)
   },
   setContacts(contacts) {
     this.contacts = contacts
   },
-  setCalles(calles) {
-    this.calles = calles
+
+  setCalls(calls) {
+    this.calls = calls
   },
 
   getContacts() {
     return this.contacts
   },
 
-  getCalles() {
-    return this.calles
+  getCalls() {
+    return this.calls
   },
 
-  calcCallesMekedSecondsDiff() {
+  calcCallsMakedSecondsDiff() {
     // timestampCurrent
     let timeStamp = Date.now()
 
-    this.calles.forEach(call => {
+    this.calls.forEach(call => {
       // timestampDelta = timestampCurrent - timestamp
       const secondsOfCall = (timeStamp - call.dateOfCall) / 1000
       call.secondsOfCall = Math.floor(secondsOfCall)
@@ -64,15 +63,22 @@ const model = {
   },
 
   searchContacts(query) {
-    // return
-    const searchedContacts = this.contacts.filter(contact => {
-      return contact.name.includes(query) || contact.famelyName.includes(query)
-    })
-    return searchedContacts
+    if (query === '') {
+      return ''
+    } else {
+      let searchedQuery = query.toLowerCase()
+      const searchedContacts = this.contacts.filter(contact => {
+        return (
+          contact.name.toLowerCase().includes(searchedQuery) ||
+          contact.famelyName.toLowerCase().includes(searchedQuery)
+        )
+      })
+      return searchedContacts
+    }
   },
 
-  getFavouritesContacts() {
-    return this.contacts.filter(c => c.inFavourites)
+  getFavoritesContacts() {
+    return this.contacts.filter(c => c.inFavorites)
   },
 
   getContactById(id) {
@@ -82,22 +88,9 @@ const model = {
     return contact
   },
 
-  makeCall(callNumber) {
-    const contact = this.contacts.find(contact => {
-      return contact.phoneNumber === callNumber
-    })
-    const call = Date.now()
-    contact.makedCalles.push(call)
-  },
-
-  // toggleFavoriteById(id)
-  // contact.inFavourites = !contact.inFavourites
-
-  addRemoveFavourites(id) {
+  addRemoveFavorites(id) {
     const contact = this.contacts.find(c => c.id === id)
-    contact.inFavourites
-      ? (contact.inFavourites = false)
-      : (contact.inFavourites = true)
+    contact.inFavorites = !contact.inFavorites
   },
 
   deleteContactById(id) {
@@ -110,32 +103,11 @@ const model = {
 // model.addContact('Ivan', 'Petrov', '102')
 // console.log(model.contacts[0].id)
 
-model.addContact('Петр', 'Иванов', '123456789')
-model.addContact('Иван', 'Петров', '9876543321')
-model.addContact('Марина', 'Владимировна', '333333333')
-model.addContact('Владимир', 'Сергеев', '521513515')
-model.addContact('Светлана', 'Владимировна', '5555555555')
+// model.addContact('Петр', 'Иванов', '123456789')
+// model.addContact('Иван', 'Петров', '9876543321')
+// model.addContact('Марина', 'Владимировна', '333333333')
+// model.addContact('Владимир', 'Сергеев', '521513515')
+// model.addContact('Светлана', 'Владимировна', '5555555555')
 
-let finded = model.searchContacts('')
-finded
-
-let q = true
-
-// q
-// q = !q
-// q
-// q = !q
-// q
-// q = !q
-// q
-// q = !q
-// q
-// q = !q
-// q
-// q = !q
-
-q = 1
-
-q ??= 42
-
-q
+// let finded = model.searchContacts('')
+// console.log(finded)
