@@ -27,7 +27,7 @@ const model = {
     if (
       editedContact.name === '' ||
       editedContact.famelyName === '' ||
-      editedContactgit.phoneNumber === ''
+      editedContact.phoneNumber === ''
     ) {
       return
     } else {
@@ -35,9 +35,11 @@ const model = {
       Object.assign(contact, editedContact)
     }
   },
+
   makeId() {
     return crypto.randomUUID()
   },
+
   addCall(contact) {
     const call = {
       id: contact.id,
@@ -49,6 +51,7 @@ const model = {
     }
     this.calls.unshift(call)
   },
+
   setContacts(contacts) {
     this.contacts = contacts
   },
@@ -77,16 +80,34 @@ const model = {
   },
 
   searchContacts(query) {
-    if (query === '') {
+    let searchQuery = query.toLowerCase().trim()
+
+    if (searchQuery === '') {
+      console.log('1', searchQuery)
       return ''
+    }
+
+    searchQuery = searchQuery.split(' ')
+
+    if (searchQuery.length > 1) {
+      console.log('2', searchQuery)
+      const searchContacts = this.contacts.filter(contact => {
+        return (
+          contact.name.toLowerCase().includes(query[0]) &&
+          contact.famelyName.toLowerCase().includes(query[1])
+        )
+      })
+      return searchContacts
     } else {
-      let searchQuery = query.toLowerCase()
+      console.log('3', searchQuery)
+
       const searchContacts = this.contacts.filter(contact => {
         return (
           contact.name.toLowerCase().includes(searchQuery) ||
           contact.famelyName.toLowerCase().includes(searchQuery)
         )
       })
+      console.log('searchContacts', searchContacts)
       return searchContacts
     }
   },

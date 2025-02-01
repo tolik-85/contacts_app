@@ -49,11 +49,6 @@ const controller = {
   },
 
   editContactHandler(id, editedContact) {
-    // const editedContact = {
-    //   name: editedName,
-    //   famelyName: editedFamelyName,
-    //   phoneNumber: editedPhone,
-    // }
     model.editContactById(id, editedContact)
     const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
@@ -72,6 +67,8 @@ const controller = {
 
   onInputSearchHandler(searchPar) {
     const searchedContacts = model.searchContacts(searchPar)
+    console.log('controller', searchedContacts)
+
     view.renderSearchModal3(searchedContacts)
   },
 

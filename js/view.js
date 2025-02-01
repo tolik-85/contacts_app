@@ -280,9 +280,11 @@ const view = {
       .querySelector('#modal3')
       .querySelector('.collection')
     searchResultListModal3.innerHTML = ''
-    if (searchedContacts === '') {
+    if (searchedContacts === '' || searchedContacts === undefined) {
       return
     } else {
+      console.log(searchedContacts)
+
       searchedContacts.forEach(contact => {
         const searchItem = generator.generateSearchCard(contact)
         searchResultListModal3.appendChild(searchItem)
