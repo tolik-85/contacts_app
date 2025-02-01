@@ -48,12 +48,12 @@ const controller = {
     view.renderModal1EditContact(contact, id)
   },
 
-  editContactHandler(id, editedName, editedFamelyName, editedPhone) {
-    const editedContact = {
-      name: editedName,
-      famelyName: editedFamelyName,
-      phoneNumber: editedPhone,
-    }
+  editContactHandler(id, editedContact) {
+    // const editedContact = {
+    //   name: editedName,
+    //   famelyName: editedFamelyName,
+    //   phoneNumber: editedPhone,
+    // }
     model.editContactById(id, editedContact)
     const contacts = model.getContacts()
     storage.saveContacts(model.contacts)

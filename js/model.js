@@ -1,7 +1,3 @@
-function makeId() {
-  return crypto.randomUUID()
-}
-
 const model = {
   contacts: [],
   // recentCalls
@@ -9,21 +5,39 @@ const model = {
 
   // !!addContact(contact)
   addContact(newContact) {
-    const contact = {
-      id: makeId(),
-      inFavorites: false,
-      dateOfCreation: new Date(),
+    if (
+      newContact.name === '' ||
+      newContact.famelyName === '' ||
+      newContact.phoneNumber === ''
+    ) {
+      return
+    } else {
+      const contact = {
+        id: this.makeId(),
+        inFavorites: false,
+        dateOfCreation: new Date(),
+      }
+      Object.assign(contact, newContact)
+      this.contacts.push(contact)
     }
-    Object.assign(contact, newContact)
-    this.contacts.push(contact)
   },
 
   // updateContactById(id, contact)
   editContactById(id, editedContact) {
-    const contact = this.getContactById(id)
-    Object.assign(contact, editedContact)
+    if (
+      editedContact.name === '' ||
+      editedContact.famelyName === '' ||
+      editedContactgit.phoneNumber === ''
+    ) {
+      return
+    } else {
+      const contact = this.getContactById(id)
+      Object.assign(contact, editedContact)
+    }
   },
-
+  makeId() {
+    return crypto.randomUUID()
+  },
   addCall(contact) {
     const call = {
       id: contact.id,

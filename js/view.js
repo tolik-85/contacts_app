@@ -13,22 +13,6 @@ const view = {
     elInputSearch.addEventListener('input', view.onInputSearchInput)
   },
 
-  onClickAddContactBtn() {
-    const elFirstNameInput = document.querySelector('#firstName')
-    const elSecondNameInput = document.querySelector('#secondName')
-    const elPhoneInput = document.querySelector('#phone')
-    const newContact = {
-      name: elFirstNameInput.value,
-      famelyName: elSecondNameInput.value,
-      phoneNumber: elPhoneInput.value,
-    }
-    controller.addContactHandler(newContact)
-
-    elFirstNameInput.value = ''
-    elSecondNameInput.value = ''
-    elPhoneInput.value = ''
-  },
-
   onClickOpenModal1Btn() {
     view.renderModal1AddNewContact()
   },
@@ -60,6 +44,7 @@ const view = {
     elEditContactBtn.innerText = 'Добавить'
 
     const elAddContactBtn = document.querySelector('#appAddContact')
+    elAddContactBtn.classList.remove('modal-close')
     elAddContactBtn.removeEventListener('click', this.onClickEditContactBtn)
     elAddContactBtn.addEventListener('click', this.onClickAddContactBtn)
 
@@ -74,6 +59,9 @@ const view = {
     const elFirstNameInput = document.querySelector('#firstName')
     const elSecondNameInput = document.querySelector('#secondName')
     const elPhoneInput = document.querySelector('#phone')
+    elFirstNameInput.removeAttribute('style')
+    elSecondNameInput.removeAttribute('style')
+    elPhoneInput.removeAttribute('style')
 
     elFirstNameInput.value = ''
     elSecondNameInput.value = ''
@@ -92,6 +80,7 @@ const view = {
 
     elEditContactBtn.innerText = 'Редактировать'
     const elAddContactBtn = document.querySelector('#appAddContact')
+    elAddContactBtn.classList.remove('modal-close')
 
     elAddContactBtn.removeEventListener('click', view.onClickAddContactBtn)
     elAddContactBtn.addEventListener('click', view.onClickEditContactBtn)
@@ -116,12 +105,55 @@ const view = {
     elSecondNameeLabel.classList.add('active')
     elPhoneLabel.classList.add('active')
 
+    elFirstNameInput.removeAttribute('style')
+    elSecondNameInput.removeAttribute('style')
+    elPhoneInput.removeAttribute('style')
     elFirstNameInput.value = contact.name
     elSecondNameInput.value = contact.famelyName
     elPhoneInput.value = contact.phoneNumber
   },
 
+  onClickAddContactBtn() {
+    const addContactBtn = document.querySelector('#appAddContact')
+    const elFirstNameInput = document.querySelector('#firstName')
+    const elSecondNameInput = document.querySelector('#secondName')
+    const elPhoneInput = document.querySelector('#phone')
+
+    elFirstNameInput.removeAttribute('style')
+    elSecondNameInput.removeAttribute('style')
+    elPhoneInput.removeAttribute('style')
+
+    if (elFirstNameInput.value === '') {
+      elFirstNameInput.setAttribute('style', 'border: 1px solid red')
+      console.log('elFirstNameInput.value')
+    }
+    if (elSecondNameInput.value === '') {
+      console.log('elSecondNameInput.value')
+      elSecondNameInput.setAttribute('style', 'border: 1px solid red')
+    }
+    if (elPhoneInput.value === '') {
+      console.log('elPhoneInput.value')
+      elPhoneInput.setAttribute('style', 'border: 1px solid red')
+    }
+    if (
+      elFirstNameInput.value !== '' &&
+      elSecondNameInput.value !== '' &&
+      elPhoneInput.value !== ''
+    ) {
+      addContactBtn.classList.add('modal-close')
+      const newContact = {
+        name: elFirstNameInput.value,
+        famelyName: elSecondNameInput.value,
+        phoneNumber: elPhoneInput.value,
+      }
+      controller.addContactHandler(newContact)
+      elFirstNameInput.value = ''
+      elSecondNameInput.value = ''
+      elPhoneInput.value = ''
+    }
+  },
   onClickEditContactBtn() {
+    const editContactBtn = document.querySelector('#appAddContact')
     const elModal1h5 = document.querySelector('#modal1').querySelector('h5')
     const id = elModal1h5.getAttribute('id')
 
@@ -137,13 +169,36 @@ const view = {
       .querySelector('#modal1')
       .querySelector('#phone')
 
-    controller.editContactHandler(
-      id,
-      elFirstNameInput.value,
-      elSecondNameInput.value,
-      elPhoneInput.value
-    )
-    elModal1h5.removeAttribute('id')
+    elFirstNameInput.removeAttribute('style')
+    elSecondNameInput.removeAttribute('style')
+    elPhoneInput.removeAttribute('style')
+
+    if (elFirstNameInput.value === '') {
+      elFirstNameInput.setAttribute('style', 'border: 1px solid red')
+      console.log('elFirstNameInput.value')
+    }
+    if (elSecondNameInput.value === '') {
+      console.log('elSecondNameInput.value')
+      elSecondNameInput.setAttribute('style', 'border: 1px solid red')
+    }
+    if (elPhoneInput.value === '') {
+      console.log('elPhoneInput.value')
+      elPhoneInput.setAttribute('style', 'border: 1px solid red')
+    }
+    if (
+      elFirstNameInput.value !== '' &&
+      elSecondNameInput.value !== '' &&
+      elPhoneInput.value !== ''
+    ) {
+      editContactBtn.classList.add('modal-close')
+      const editedContact = {
+        name: elFirstNameInput.value,
+        famelyName: elSecondNameInput.value,
+        phoneNumber: elPhoneInput.value,
+      }
+      controller.editContactHandler(id, editedContact)
+      elModal1h5.removeAttribute('id')
+    }
   },
   onClickDeleteContactBtn(e) {
     const id = this.id
