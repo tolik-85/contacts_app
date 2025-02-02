@@ -283,8 +283,6 @@ const view = {
     if (searchedContacts === '' || searchedContacts === undefined) {
       return
     } else {
-      console.log(searchedContacts)
-
       searchedContacts.forEach(contact => {
         const searchItem = generator.generateSearchCard(contact)
         searchResultListModal3.appendChild(searchItem)

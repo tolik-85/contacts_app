@@ -67,7 +67,6 @@ const controller = {
 
   onInputSearchHandler(searchPar) {
     const searchedContacts = model.searchContacts(searchPar)
-    console.log('controller', searchedContacts)
 
     view.renderSearchModal3(searchedContacts)
   },
