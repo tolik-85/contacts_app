@@ -109,7 +109,7 @@ const view = {
     elSecondNameInput.removeAttribute('style')
     elPhoneInput.removeAttribute('style')
     elFirstNameInput.value = contact.name
-    elSecondNameInput.value = contact.famelyName
+    elSecondNameInput.value = contact.familyName
     elPhoneInput.value = contact.phoneNumber
   },
 
@@ -143,7 +143,7 @@ const view = {
       addContactBtn.classList.add('modal-close')
       const newContact = {
         name: elFirstNameInput.value,
-        famelyName: elSecondNameInput.value,
+        familyName: elSecondNameInput.value,
         phoneNumber: elPhoneInput.value,
       }
       controller.addContactHandler(newContact)
@@ -193,7 +193,7 @@ const view = {
       editContactBtn.classList.add('modal-close')
       const editedContact = {
         name: elFirstNameInput.value,
-        famelyName: elSecondNameInput.value,
+        familyName: elSecondNameInput.value,
         phoneNumber: elPhoneInput.value,
       }
       controller.editContactHandler(id, editedContact)
@@ -215,10 +215,10 @@ const view = {
   },
 
   renderModal2EditContact(contact) {
-    const elH5NameFamelyName = document
+    const elH5NameFamilyName = document
       .querySelector('#modal2')
       .querySelector('h5')
-    elH5NameFamelyName.innerText = `${contact.name} ${contact.famelyName}`
+    elH5NameFamilyName.innerText = `${contact.name} ${contact.familyName}`
 
     const elDivRow = document.querySelector('#modal2').querySelector('.row')
     const elButtonsContainer = document

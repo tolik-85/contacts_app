@@ -7,7 +7,7 @@ const model = {
   addContact(newContact) {
     if (
       newContact.name === '' ||
-      newContact.famelyName === '' ||
+      newContact.familyName === '' ||
       newContact.phoneNumber === ''
     ) {
       return
@@ -26,7 +26,7 @@ const model = {
   editContactById(id, editedContact) {
     if (
       editedContact.name === '' ||
-      editedContact.famelyName === '' ||
+      editedContact.familyName === '' ||
       editedContact.phoneNumber === ''
     ) {
       return
@@ -79,37 +79,74 @@ const model = {
     })
   },
 
-  searchContacts(query) {
-    let searchQuery = query.toLowerCase().trim()
+  // searchContacts(query) {
+  //   let searchQuery = query.toLowerCase().trim()
 
-    if (searchQuery === '') {
-      console.log('1', searchQuery)
-      return ''
-    }
+  //   if (searchQuery === '') {
+  //     console.log('1', searchQuery)
+  //     return ''
+  //   }
 
-    searchQuery = searchQuery.split(' ')
+  //   searchQuery = searchQuery.split(' ')
 
-    if (searchQuery.length > 1) {
-      console.log('2', searchQuery)
-      const searchContacts = this.contacts.filter(contact => {
-        return (
-          contact.name.toLowerCase().includes(query[0]) &&
-          contact.famelyName.toLowerCase().includes(query[1])
+  //   if (searchQuery.length > 1) {
+  //     console.log('2', searchQuery)
+  //     const searchContacts = this.contacts.filter(contact => {
+  //       return (
+  //         contact.name.toLowerCase().includes(query[0]) &&
+  //         contact.familyName.toLowerCase().includes(query[1])
+  //       )
+  //     })
+  //     return searchContacts
+  //   } else {
+  //     console.log('3', searchQuery)
+
+  //     const searchContacts = this.contacts.filter(contact => {
+  //       return (
+  //         contact.name.toLowerCase().includes(searchQuery) ||
+  //         contact.familyName.toLowerCase().includes(searchQuery)
+  //       )
+  //     })
+  //     console.log('searchContacts', searchContacts)
+  //     return searchContacts
+  //   }
+  // },
+  searchContacts(fullName) {
+    // Убираем лишние пробелы и приводим к нижнему регистру
+    const cleanInput = fullName.trim().toLowerCase()
+    if (!cleanInput) return [] // Если только пробелы — возвращаем пустой массив
+
+    // Разбиваем строку на части (по пробелу) или работаем как с одной строкой, если пробелов нет
+    const searchParts = cleanInput.includes(' ')
+      ? cleanInput.split(' ')
+      : [cleanInput]
+
+    return this.contacts
+      .filter(contact => {
+        const nameLower = contact.name.toLowerCase()
+        const familyLower = contact.familyName.toLowerCase()
+
+        // Проверяем, начинается ли name или familyName с любой части searchParts
+        return searchParts.some(
+          part => nameLower.startsWith(part) || familyLower.startsWith(part)
         )
       })
-      return searchContacts
-    } else {
-      console.log('3', searchQuery)
+      .sort((a, b) => {
+        const nameLowerA = a.name.toLowerCase(),
+          familyLowerA = a.familyName.toLowerCase()
+        const nameLowerB = b.name.toLowerCase(),
+          familyLowerB = b.familyName.toLowerCase()
 
-      const searchContacts = this.contacts.filter(contact => {
-        return (
-          contact.name.toLowerCase().includes(searchQuery) ||
-          contact.famelyName.toLowerCase().includes(searchQuery)
-        )
+        // Подсчет совпадений (ищем по началу слова)
+        const aMatch = searchParts.filter(
+          part => nameLowerA.startsWith(part) || familyLowerA.startsWith(part)
+        ).length
+        const bMatch = searchParts.filter(
+          part => nameLowerB.startsWith(part) || familyLowerB.startsWith(part)
+        ).length
+
+        return bMatch - aMatch // Чем больше совпадений, тем выше результат
       })
-      console.log('searchContacts', searchContacts)
-      return searchContacts
-    }
   },
 
   getFavoritesContacts() {

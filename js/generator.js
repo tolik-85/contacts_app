@@ -36,7 +36,7 @@ const generator = {
     elDivCol2.classList.add('s4')
     const elSpanCol2 = document.createElement('span')
     const elB = document.createElement('b')
-    elB.innerText = `${cont.name} ${cont.famelyName}`
+    elB.innerText = `${cont.name} ${cont.familyName}`
 
     const elDivCol3 = document.createElement('div')
     elDivCol3.classList.add('col')
@@ -244,7 +244,7 @@ const generator = {
 
     const elSpanContactName = document.createElement('span')
     elSpanContactName.classList.add('white-text')
-    elSpanContactName.innerText = `${contact.name} ${contact.famelyName}`
+    elSpanContactName.innerText = `${contact.name} ${contact.familyName}`
 
     elDivCardIcon.appendChild(elSpanCardIcon)
     elDivCard.appendChild(elDivCardIcon)
@@ -270,7 +270,7 @@ const generator = {
 
     const elSpanContactName = document.createElement('span')
     elSpanContactName.classList.add('title')
-    elSpanContactName.innerText = `${contact.name} ${contact.famelyName}`
+    elSpanContactName.innerText = `${contact.name} ${contact.familyName}`
 
     const elPphoneNumber = document.createElement('p')
     elPphoneNumber.innerText = `${contact.phoneNumber}`
