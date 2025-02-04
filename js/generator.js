@@ -191,7 +191,7 @@ const generator = {
 
     const elPtimeStamp = document.createElement('p')
     const elItimeStamp = document.createElement('i')
-    elItimeStamp.innerText = `Звонок совершен ${call.secondsOfCall} секунд назад`
+    elItimeStamp.innerText = `Звонок совершен ${call.secondsOfCall} ${call.declination} назад`
 
     const elAcontactIcon = document.createElement('a')
     elAcontactIcon.classList.add('secondary-content')

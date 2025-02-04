@@ -73,8 +73,12 @@ const controller = {
 
   renderCallsTab2HandlerEvery10Sec() {
     const calls = model.getCalls()
+
     if (calls.length > 0) {
       model.calcCallsMakedSecondsDiff()
+      calls.forEach(call => {
+        call.declination = model.getDeclination(call.secondsOfCall)
+      })
       view.renderCallsTab2(calls)
     }
   },

@@ -3,6 +3,46 @@ const model = {
   // recentCalls
   calls: [],
 
+  getDeclination(number) {
+    const declination = {
+      секунду: [1],
+      секунды: [2, 3, 4],
+      секунд: [0, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    }
+
+    const numStr = number.toString()
+    const lastTwoDigits = Number(numStr.slice(-2))
+    const lastDigit = Number(numStr.slice(-1))
+
+    if (declination.секунд.includes(lastTwoDigits)) {
+      // call.declination = 'секунд'
+      return 'секунд'
+    }
+
+    if (declination.секунду.includes(lastDigit)) {
+      // call.declination = 'секунду'
+      return 'секунду'
+    }
+    if (declination.секунды.includes(lastDigit)) {
+      // call.declination = 'секунды'
+      return 'секунды'
+    }
+
+    // call.declination = 'секунд'
+    return 'секунд'
+  },
+
+  calcCallsMakedSecondsDiff() {
+    // timestampCurrent
+    let timeStamp = Date.now()
+
+    this.calls.forEach(call => {
+      // timestampDelta = timestampCurrent - timestamp
+      const secondsOfCall = (timeStamp - call.dateOfCall) / 1000
+      call.secondsOfCall = Math.floor(secondsOfCall)
+    })
+  },
+
   // !!addContact(contact)
   addContact(newContact) {
     if (
@@ -48,6 +88,7 @@ const model = {
       dateOfCall: Date.now(),
       // timestampDelta
       secondsOfCall: 0,
+      declination: 'секунд',
     }
     this.calls.unshift(call)
   },
@@ -66,17 +107,6 @@ const model = {
 
   getCalls() {
     return this.calls
-  },
-
-  calcCallsMakedSecondsDiff() {
-    // timestampCurrent
-    let timeStamp = Date.now()
-
-    this.calls.forEach(call => {
-      // timestampDelta = timestampCurrent - timestamp
-      const secondsOfCall = (timeStamp - call.dateOfCall) / 1000
-      call.secondsOfCall = Math.floor(secondsOfCall)
-    })
   },
 
   // searchContacts(query) {
