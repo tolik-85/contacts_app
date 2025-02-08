@@ -169,6 +169,8 @@ const generator = {
   },
 
   generateCallTab2(call) {
+    // call.contact.familyName
+
     const elLiCallWrapper = document.createElement('li')
     elLiCallWrapper.classList.add('recent-call')
     elLiCallWrapper.classList.add('waves-effect')
@@ -191,7 +193,9 @@ const generator = {
 
     const elPtimeStamp = document.createElement('p')
     const elItimeStamp = document.createElement('i')
-    elItimeStamp.innerText = `Звонок совершен ${call.secondsOfCall} ${call.declination} назад`
+    elItimeStamp.innerText = `Звонок совершен ${call.getSecondAgo()} ${
+      call.declination
+    } назад`
 
     const elAcontactIcon = document.createElement('a')
     elAcontactIcon.classList.add('secondary-content')
