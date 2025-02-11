@@ -46,13 +46,31 @@ const model = {
   getContactById(id) {
     return this.contacts.find(contact => contact.id === id)
   },
-
+  getCallByPhoneNumber(phoneNumber) {
+    return this.calls.find(call => call.phoneNumber.phoneNumber === phoneNumber)
+  },
   getContactByPhone(phoneNumber) {
     return this.contacts.find(contact => contact.phoneNumber === phoneNumber)
   },
 
   getFavoritesContacts() {
     return this.contacts.filter(c => c.inFavorites)
+  },
+
+  updateCallsWithContactsData() {
+    this.calls.forEach(call => {
+      const contact = this.contacts.find(
+        contact => contact.phoneNumber === call.phoneNumber.phoneNumber
+      )
+      if (contact) {
+        if (call.phoneNumber.name !== contact.name) {
+          call.phoneNumber.name = contact.name
+        }
+        if (call.phoneNumber.familyName !== contact.familyName) {
+          call.phoneNumber.familyName = contact.familyName
+        }
+      }
+    })
   },
 
   setCalls(calls) {
@@ -106,26 +124,17 @@ const model = {
     const findedContact = this.getContactById(id)
     Object.assign(findedContact, contact)
   },
+
   checkCallsWithContact() {
     this.calls.forEach(call => {
-      this.contacts.forEach(contact => {
-        if (call.phoneNumber.phoneNumber === contact.phoneNumber) {
-          // console.log('true', call.phoneNumber.phoneNumber, contact.phoneNumber)
-          call.contactExist = true
-        } else {
-          // console.log(
-          //   'false',
-          //   call.phoneNumber.phoneNumber,
-          //   contact.phoneNumber
-          // )
-          call.contactExist = false
-        }
-      })
+      call.contactExist = this.contacts.some(
+        contact => contact.phoneNumber === call.phoneNumber.phoneNumber
+      )
     })
   },
+
   // addCall(phoneNumber) {
   //   const contact = this.getContactByPhone(phoneNumber)
-
   //   const call = {
   //     phoneNumber: phoneNumber,
   //     timestampCreated: Date.now(),
@@ -139,9 +148,7 @@ const model = {
   //     // TODO: look double invoke
   //     declination: getDeclination(this.getSecondAgo()),
   //   }
-
   //   if (contact) call.contact = contact
-
   //   this.calls.unshift(call)
   // },
 

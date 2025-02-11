@@ -7,6 +7,7 @@ const controller = {
     model.setContacts(contacts)
     contacts = model.getContacts()
     const favoriteContacts = model.getFavoritesContacts()
+    model.updateCallsWithContactsData()
     calls = model.getCalls()
     model.checkCallsWithContact()
     view.renderCallsTab2(calls)
@@ -50,6 +51,7 @@ const controller = {
     view.renderTab3Contacts(contacts)
     const favoriteContacts = model.getFavoritesContacts()
     view.renderFavoritesTab1(favoriteContacts)
+    model.updateCallsWithContactsData()
     const calls = model.getCalls()
     model.checkCallsWithContact()
     view.renderCallsTab2(calls)
@@ -72,10 +74,10 @@ const controller = {
   onClickMakeCallHandler(id) {
     const contact = model.getContactById(id)
     model.addCall(contact)
-    model.checkCallsWithContact()
     const calls = model.getCalls()
     storage.saveCalls(model.calls)
     model.checkCallsWithContact()
+    model.updateCallsWithContactsData()
     view.renderCallsTab2(calls)
   },
 
@@ -87,6 +89,7 @@ const controller = {
 
   renderCallsTab2HandlerEvery10Sec() {
     model.checkCallsWithContact()
+    model.updateCallsWithContactsData()
     const calls = model.getCalls()
     // console.log(calls)
 
