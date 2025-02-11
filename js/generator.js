@@ -102,7 +102,7 @@ const generator = {
       starFavoritesTrue.innerText = 'star'
       starFavoritesTrue.addEventListener(
         'click',
-        view.onClickAddRemoveFavoritesBtn
+        view.onClickRemoveFavoritesBtn
       )
       return starFavoritesTrue
     } else {
@@ -112,10 +112,7 @@ const generator = {
       starFavoritesFalse.classList.add('material-symbols-outlined')
       starFavoritesFalse.classList.add('non-fill')
       starFavoritesFalse.innerText = 'star'
-      starFavoritesFalse.addEventListener(
-        'click',
-        view.onClickAddRemoveFavoritesBtn
-      )
+      starFavoritesFalse.addEventListener('click', view.onClickAddFavoritesBtn)
       return starFavoritesFalse
     }
   },
@@ -146,7 +143,7 @@ const generator = {
 
     const elPdate = document.createElement('p')
     const elIdate = document.createElement('i')
-    elIdate.innerText = `Добавлен: ${contact.dateOfCreation}`
+    elIdate.innerText = `Добавлен: ${contact.timestampCreated}`
 
     const elAphoneIcon = document.createElement('a')
     elAphoneIcon.setAttribute('href', '#')
@@ -169,7 +166,7 @@ const generator = {
   },
 
   generateCallTab2(call) {
-    // call.contact.familyName
+    // console.log(call)
 
     const elLiCallWrapper = document.createElement('li')
     elLiCallWrapper.classList.add('recent-call')
@@ -189,7 +186,13 @@ const generator = {
     const elSpanPhoneNumber = document.createElement('span')
     elSpanPhoneNumber.classList.add('title')
     const elBPhoneNumber = document.createElement('b')
-    elBPhoneNumber.innerText = `${call.phoneNumber}`
+    if (call.contactExist) {
+      // console.log('true', call.phoneNumber.name, call.phoneNumber.familyName)
+
+      elBPhoneNumber.innerText = `${call.phoneNumber.name} ${call.phoneNumber.familyName}`
+    } else {
+      elBPhoneNumber.innerText = `${call.phoneNumber.phoneNumber}`
+    }
 
     const elPtimeStamp = document.createElement('p')
     const elItimeStamp = document.createElement('i')

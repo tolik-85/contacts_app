@@ -21,10 +21,13 @@ const view = {
     const id = this.id
     controller.handleOpenModal2(id)
   },
-
-  onClickAddRemoveFavoritesBtn() {
+  onClickRemoveFavoritesBtn() {
     const id = this.id
-    controller.addRemoveFavoritesHandler(id)
+    controller.removeFavoritesHandler(id)
+  },
+  onClickAddFavoritesBtn() {
+    const id = this.id
+    controller.addFavoritesHandler(id)
   },
 
   onClickEditContactIconModal2() {
@@ -125,14 +128,11 @@ const view = {
 
     if (elFirstNameInput.value === '') {
       elFirstNameInput.setAttribute('style', 'border: 1px solid red')
-      console.log('elFirstNameInput.value')
     }
     if (elSecondNameInput.value === '') {
-      console.log('elSecondNameInput.value')
       elSecondNameInput.setAttribute('style', 'border: 1px solid red')
     }
     if (elPhoneInput.value === '') {
-      console.log('elPhoneInput.value')
       elPhoneInput.setAttribute('style', 'border: 1px solid red')
     }
     if (
@@ -175,14 +175,11 @@ const view = {
 
     if (elFirstNameInput.value === '') {
       elFirstNameInput.setAttribute('style', 'border: 1px solid red')
-      console.log('elFirstNameInput.value')
     }
     if (elSecondNameInput.value === '') {
-      console.log('elSecondNameInput.value')
       elSecondNameInput.setAttribute('style', 'border: 1px solid red')
     }
     if (elPhoneInput.value === '') {
-      console.log('elPhoneInput.value')
       elPhoneInput.setAttribute('style', 'border: 1px solid red')
     }
     if (

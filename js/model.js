@@ -20,6 +20,12 @@ function getDeclination(number) {
   }
   return 'секунд'
 }
+function getSecondAgo() {
+  const timestampCurrent = Date.now()
+  const timestampDelta = timestampCurrent - this.timestampCreated
+  const seconds = timestampDelta / 1000
+  return Math.floor(seconds)
+}
 
 function makeId() {
   return crypto.randomUUID()
@@ -57,6 +63,15 @@ const model = {
     return this.calls
   },
 
+  addSecondsAgoToCall() {
+    this.calls.forEach(
+      call =>
+        (call.getSecondAgo = function () {
+          return Math.floor((Date.now() - this.timestampCreated) / 1000)
+        })
+    )
+  },
+
   addFavorites(id) {
     const contact = this.contacts.find(c => c.id === id)
     contact.inFavorites = true
@@ -74,7 +89,7 @@ const model = {
   },
 
   addContact(contact) {
-    if (hasEmptyField(createdContact)) return
+    if (hasEmptyField(contact)) return
 
     const createdContact = {
       id: makeId(),
@@ -87,27 +102,55 @@ const model = {
   },
 
   editContactById(id, contact) {
-    // TODO: refactor if
-    if (
-      contact.name === '' ||
-      contact.familyName === '' ||
-      contact.phoneNumber === ''
-    ) {
-      return
-    } else {
-      const findedContact = this.getContactById(id)
-      Object.assign(findedContact, contact)
-    }
+    if (hasEmptyField(contact)) return
+    const findedContact = this.getContactById(id)
+    Object.assign(findedContact, contact)
   },
+  checkCallsWithContact() {
+    this.calls.forEach(call => {
+      this.contacts.forEach(contact => {
+        if (call.phoneNumber.phoneNumber === contact.phoneNumber) {
+          // console.log('true', call.phoneNumber.phoneNumber, contact.phoneNumber)
+          call.contactExist = true
+        } else {
+          // console.log(
+          //   'false',
+          //   call.phoneNumber.phoneNumber,
+          //   contact.phoneNumber
+          // )
+          call.contactExist = false
+        }
+      })
+    })
+  },
+  // addCall(phoneNumber) {
+  //   const contact = this.getContactByPhone(phoneNumber)
+
+  //   const call = {
+  //     phoneNumber: phoneNumber,
+  //     timestampCreated: Date.now(),
+  //     getSecondAgo() {
+  //       const timestampCurrent = Date.now()
+  //       const timestampDelta = timestampCurrent - this.timestampCreated
+  //       const seconds = timestampDelta / 1000
+  //       console.log(Math.floor(seconds))
+  //       return Math.floor(seconds)
+  //     },
+  //     // TODO: look double invoke
+  //     declination: getDeclination(this.getSecondAgo()),
+  //   }
+
+  //   if (contact) call.contact = contact
+
+  //   this.calls.unshift(call)
+  // },
 
   addCall(phoneNumber) {
     const contact = this.getContactByPhone(phoneNumber)
 
     const call = {
       phoneNumber: phoneNumber,
-
       timestampCreated: Date.now(),
-
       getSecondAgo() {
         const timestampCurrent = Date.now()
         const timestampDelta = timestampCurrent - this.timestampCreated
@@ -115,8 +158,9 @@ const model = {
         return Math.floor(seconds)
       },
 
-      // TODO: look double invoke
-      declination: getDeclination(this.getSecondAgo()),
+      get declination() {
+        return getDeclination(this.getSecondAgo())
+      },
     }
 
     if (contact) call.contact = contact
@@ -124,36 +168,26 @@ const model = {
     this.calls.unshift(call)
   },
 
-  searchContacts(fullName) {
-    const cleanInput = fullName.trim().toLowerCase()
-    if (!cleanInput) return [] // Если только пробелы — возвращаем пустой массив
-    // Разбиваем строку на части (по пробелу) или работаем как с одной строкой, если пробелов нет
-    const searchParts = cleanInput.includes(' ')
-      ? cleanInput.split(' ')
-      : [cleanInput]
+  searchContacts(query) {
+    const queries = query
+      .toLowerCase()
+      .split(' ')
+      .filter(q => q)
 
     return this.contacts
       .filter(contact => {
-        const nameLower = contact.name.toLowerCase()
-        const familyLower = contact.familyName.toLowerCase()
-        // Проверяем, начинается ли name или familyName с любой части searchParts
-        return searchParts.some(
-          part => nameLower.startsWith(part) || familyLower.startsWith(part)
-        )
-      })
-      .sort((a, b) => {
-        const nameLowerA = a.name.toLowerCase(),
-          familyLowerA = a.familyName.toLowerCase()
-        const nameLowerB = b.name.toLowerCase(),
-          familyLowerB = b.familyName.toLowerCase()
-        // Подсчет совпадений (ищем по началу слова)
-        const aMatch = searchParts.filter(
-          part => nameLowerA.startsWith(part) || familyLowerA.startsWith(part)
+        const isPropertyContainQuery = queries.map(q => {
+          return (
+            contact.name.toLowerCase().includes(q) ||
+            contact.familyName.toLowerCase().includes(q)
+          )
+        })
+        contact.includesCount = isPropertyContainQuery.filter(
+          item => item
         ).length
-        const bMatch = searchParts.filter(
-          part => nameLowerB.startsWith(part) || familyLowerB.startsWith(part)
-        ).length
-        return bMatch - aMatch // Чем больше совпадений, тем выше результат
+        return contact.includesCount
       })
+      .toSorted((item, prevItem) => prevItem.includesCount - item.includesCount)
+      .map(contact => (delete contact.includesCount, contact))
   },
 }

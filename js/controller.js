@@ -3,10 +3,12 @@ const controller = {
     let contacts = storage.restoreContacts()
     let calls = storage.restoreCalls()
     model.setCalls(calls)
+    model.addSecondsAgoToCall()
     model.setContacts(contacts)
     contacts = model.getContacts()
     const favoriteContacts = model.getFavoritesContacts()
     calls = model.getCalls()
+    model.checkCallsWithContact()
     view.renderCallsTab2(calls)
     view.renderTab3Contacts(contacts)
     view.renderFavoritesTab1(favoriteContacts)
@@ -24,13 +26,20 @@ const controller = {
     view.renderModal2EditContact(contact)
   },
 
-  addRemoveFavoritesHandler(id) {
-    model.addRemoveFavorites(id)
+  removeFavoritesHandler(id) {
+    model.removeFavorites(id)
     const contacts = model.getContacts()
     storage.saveContacts(model.contacts)
     view.renderTab3Contacts(contacts)
     const favouriteContacts = model.getFavoritesContacts()
-
+    view.renderFavoritesTab1(favouriteContacts)
+  },
+  addFavoritesHandler(id) {
+    model.addFavorites(id)
+    const contacts = model.getContacts()
+    storage.saveContacts(model.contacts)
+    view.renderTab3Contacts(contacts)
+    const favouriteContacts = model.getFavoritesContacts()
     view.renderFavoritesTab1(favouriteContacts)
   },
 
@@ -41,6 +50,9 @@ const controller = {
     view.renderTab3Contacts(contacts)
     const favoriteContacts = model.getFavoritesContacts()
     view.renderFavoritesTab1(favoriteContacts)
+    const calls = model.getCalls()
+    model.checkCallsWithContact()
+    view.renderCallsTab2(calls)
   },
 
   openModal1Handler(id) {
@@ -60,8 +72,10 @@ const controller = {
   onClickMakeCallHandler(id) {
     const contact = model.getContactById(id)
     model.addCall(contact)
+    model.checkCallsWithContact()
     const calls = model.getCalls()
     storage.saveCalls(model.calls)
+    model.checkCallsWithContact()
     view.renderCallsTab2(calls)
   },
 
@@ -72,13 +86,11 @@ const controller = {
   },
 
   renderCallsTab2HandlerEvery10Sec() {
+    model.checkCallsWithContact()
     const calls = model.getCalls()
+    // console.log(calls)
 
     if (calls.length > 0) {
-      model.calcCallsMakedSecondsDiff()
-      calls.forEach(call => {
-        call.declination = model.getDeclination(call.secondsOfCall)
-      })
       view.renderCallsTab2(calls)
     }
   },
