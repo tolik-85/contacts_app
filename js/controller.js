@@ -69,15 +69,19 @@ const controller = {
     view.renderTab3Contacts(contacts)
     const favouriteContacts = model.getFavoritesContacts()
     view.renderFavoritesTab1(favouriteContacts)
+    model.checkCallsWithContact()
+    model.updateCallsWithContactsData()
+    const calls = model.getCalls()
+    view.renderCallsTab2(calls)
   },
 
   onClickMakeCallHandler(id) {
     const contact = model.getContactById(id)
     model.addCall(contact)
-    const calls = model.getCalls()
-    storage.saveCalls(model.calls)
     model.checkCallsWithContact()
     model.updateCallsWithContactsData()
+    const calls = model.getCalls()
+    storage.saveCalls(model.calls)
     view.renderCallsTab2(calls)
   },
 

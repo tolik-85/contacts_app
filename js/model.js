@@ -133,25 +133,6 @@ const model = {
     })
   },
 
-  // addCall(phoneNumber) {
-  //   const contact = this.getContactByPhone(phoneNumber)
-  //   const call = {
-  //     phoneNumber: phoneNumber,
-  //     timestampCreated: Date.now(),
-  //     getSecondAgo() {
-  //       const timestampCurrent = Date.now()
-  //       const timestampDelta = timestampCurrent - this.timestampCreated
-  //       const seconds = timestampDelta / 1000
-  //       console.log(Math.floor(seconds))
-  //       return Math.floor(seconds)
-  //     },
-  //     // TODO: look double invoke
-  //     declination: getDeclination(this.getSecondAgo()),
-  //   }
-  //   if (contact) call.contact = contact
-  //   this.calls.unshift(call)
-  // },
-
   addCall(phoneNumber) {
     const contact = this.getContactByPhone(phoneNumber)
 
