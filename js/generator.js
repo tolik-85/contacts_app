@@ -196,7 +196,7 @@ const generator = {
 
     const elPtimeStamp = document.createElement('p')
     const elItimeStamp = document.createElement('i')
-    elItimeStamp.innerText = `Звонок совершен ${call.getSecondAgo()} ${getDeclination(
+    elItimeStamp.innerText = `Звонок совершен ${call.getSecondAgo()} ${call.getDeclination(
       call.getSecondAgo()
     )} назад`
 
