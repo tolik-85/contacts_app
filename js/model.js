@@ -133,6 +133,19 @@ const model = {
     })
   },
 
+  addGetSecondAgoMethod(calls) {
+    const callPrototype = {
+      getSecondAgo() {
+        return Math.floor((Date.now() - this.timestampCreated) / 1000)
+      },
+    }
+
+    calls.forEach(call => Object.setPrototypeOf(call, callPrototype))
+    calls.forEach(call => {
+      console.log(Object.getPrototypeOf(call))
+    })
+  },
+
   addCall(phoneNumber) {
     const contact = this.getContactByPhone(phoneNumber)
 

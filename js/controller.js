@@ -2,8 +2,10 @@ const controller = {
   onLoadPageHandler() {
     let contacts = storage.restoreContacts()
     let calls = storage.restoreCalls()
+    model.addGetSecondAgoMethod(calls)
     model.setCalls(calls)
-    model.addSecondsAgoToCall()
+    // model.addSecondsAgoToCall()
+    // model.addPrototipes()
     model.setContacts(contacts)
     contacts = model.getContacts()
     const favoriteContacts = model.getFavoritesContacts()
