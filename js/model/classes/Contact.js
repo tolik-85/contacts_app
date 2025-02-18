@@ -4,21 +4,30 @@ const makeId = require('../functions/makeId')
 class Contact {
   constructor(contact) {
     if (hasEmptyField(contact)) return
-    if (contact.id) {
-      this.id = contact.id
-    } else {
-      this.id = makeId()
-    }
-    if (contact.timestampCreated) {
-      this.timestampCreated = contact.timestampCreated
-    } else {
-      this.timestampCreated = new Date()
-    }
-    if (contact.isFavorite) {
-      this.isFavorite = contact.isFavorite
-    } else {
-      this.isFavorite = false
-    }
+    contact.id ? (this.id = contact.id) : (this.id = makeId())
+    contact.timestampCreated
+      ? (this.timestampCreated = contact.timestampCreated)
+      : (this.timestampCreated = new Date())
+    contact.isFavorite
+      ? (this.isFavorite = contact.isFavorite)
+      : (this.isFavorite = false)
+
+    // if (contact.id) {
+    //   this.id = contact.id
+    // } else {
+    //   this.id = makeId()
+    // }
+    // if (contact.timestampCreated) {
+    //   this.timestampCreated = contact.timestampCreated
+    // } else {
+    //   this.timestampCreated = new Date()
+    // }
+    // if (contact.isFavorite) {
+    //   this.isFavorite = contact.isFavorite
+    // } else {
+    //   this.isFavorite = false
+    // }
+
     this.firstName = contact.firstName
     this.lastName = contact.lastName
     this.phoneNumber = contact.phoneNumber
