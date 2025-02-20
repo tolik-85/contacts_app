@@ -1,10 +1,20 @@
-const Call = require('../call')
+const Call = require('./call')
 
 const calls = {
   list: [],
 
+  addCall(call) {
+    const createdCall = new Call(call)
+    this.list.push(createdCall)
+  },
+
   setCalls(callsList) {
     this.list = callsList
+  },
+
+  cleanByContactId(id) {
+    const call = this.list.find(c => c.contact.id === id)
+    delete call.contact
   },
 
   getCalls() {
@@ -14,22 +24,6 @@ const calls = {
   getCallByPhoneNumber(phoneNumber) {
     return this.list.find(call => call.phoneNumber.phoneNumber === phoneNumber)
   },
-
-  // updateCallsWithContactsData() {
-  //   this.list.forEach(call => {
-  //     const contact = this.contacts.find(
-  //       contact => contact.phoneNumber === call.phoneNumber.phoneNumber
-  //     )
-  //     if (contact) {
-  //       if (call.phoneNumber.name !== contact.name) {
-  //         call.phoneNumber.name = contact.name
-  //       }
-  //       if (call.phoneNumber.familyName !== contact.familyName) {
-  //         call.phoneNumber.familyName = contact.familyName
-  //       }
-  //     }
-  //   })
-  // },
 }
 
 module.exports = calls
