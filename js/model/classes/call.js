@@ -19,4 +19,6 @@ const call = new Call({
 })
 
 console.log(call)
+console.log(contacts)
+
 module.exports = Call

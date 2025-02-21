@@ -162,7 +162,7 @@ const model = {
 
     calls.forEach(call => Object.setPrototypeOf(call, callPrototype))
     calls.forEach(call => {
-      console.log(Object.getPrototypeOf(call))
+      // console.log(Object.getPrototypeOf(call))
     })
   },
 
